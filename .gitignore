@@ -1,0 +1,8 @@
+# Ignore all Vim swap files
+*.swp
+
+# Ignore all Python bytecode
+*.pyc
+
+# Ignore Apple Computer
+.DS_Store
