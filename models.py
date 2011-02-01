@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.site.models import Site
+from django.contrib.sites.models import Site
 from django.utils.translation import ugettext_lazy as _
 
 class Page(models.Model):
@@ -13,7 +13,7 @@ class Page(models.Model):
 
 	# wes features
 	is_draft = models.BooleanField(_('draft'))
-	sub_pages = models.ManyToManyField(Page)
+	sub_pages = models.ManyToManyField('Page', blank=True)
 	# show_after = models.ForeignKey('Page', null=True, blank=True, default=None, related_name="flatpage_parent", help_text="Page that this one should after after (if any)")
 
 	class Meta:
