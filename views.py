@@ -16,7 +16,7 @@ def page(request, url):
         return HttpResponseRedirect("%s/" % request.path)
     if not url.startswith('/'):
         url = "/" + url
-    p = get_object_or_404(Page, url__exact=url, sites__id__exact=settings.SITE_ID)
+    p = get_object_or_404(Page, url__exact=url)
     return render_page(request, p)
 
 def render_page(request, p):
@@ -26,7 +26,7 @@ def render_page(request, p):
 
     # Load template
     if p.template_name:
-        t = loader.select_template((f.template_name, DEFAULT_TEMPLATE))
+        t = loader.select_template((p.template_name, DEFAULT_TEMPLATE))
     else:
         t = loader.get_template(DEFAULT_TEMPLATE)
 
