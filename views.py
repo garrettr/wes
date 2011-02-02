@@ -34,10 +34,10 @@ def render_page(request, p):
     # (to avoid having to always use the "|safe" filter in wes templates)
     p.title = mark_safe(p.title)
     p.content = mark_safe(p.content)
-    
+
     c = RequestContext(request, {
         'page': p,
-    })      
+    })
     response = HttpResponse(t.render(c))
     populate_xheaders(request, response, Page, p.id)
     return response
