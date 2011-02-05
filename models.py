@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.sites.models import Site
 from django.utils.translation import ugettext_lazy as _
+from tinymce import models as tinymce_models
 
 class ActivePageManager(models.Manager):
     def get_query_set(self):
@@ -14,7 +15,8 @@ class Page(models.Model):
     # unique=True?
     url = models.CharField(_('URL'), max_length=100, db_index=True, unique=True)
     title = models.CharField(_('title'), max_length=200)
-    content = models.TextField(_('content'), blank=True)
+    #content = models.TextField(_('content'), blank=True)
+    content = tinymce_models.HTMLField()
     #enable_comments = models.BooleanField(_('enable comments'))
     template_name = models.CharField(_('template name'), max_length=70, blank=True, help_text=_("Example: 'wes/contact_page.html'. If this isn't provided, the system will use 'wes/default.html'."))
     #sites = models.ManyToManyField(Site)
