@@ -7,7 +7,7 @@ def do_nav_list(parser, token):
 
 class NavListNode(template.Node):
     def render(self, context):
-        context['nav_list'] = Page.active.all()
+        context['nav_list'] = Page.toplevel.all()
         return ''
 
 register = template.Library()
