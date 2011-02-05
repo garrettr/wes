@@ -8,7 +8,7 @@ class ActivePageManager(models.Manager):
 
 class Page(models.Model):
     # unique=True?
-    url = models.CharField(_('URL'), max_length=100, db_index=True)
+    url = models.CharField(_('URL'), max_length=100, db_index=True, unique=True)
     title = models.CharField(_('title'), max_length=200)
     content = models.TextField(_('content'), blank=True)
     #enable_comments = models.BooleanField(_('enable comments'))
@@ -21,8 +21,9 @@ class Page(models.Model):
     sub_pages = models.ManyToManyField('Page', blank=True)
 
     # Managers
-    active = ActivePageManager()
+    # Note - the Django admin uses the first manager it sees
     objects = models.Manager()
+    active = ActivePageManager()
 
     class Meta:
         ordering = ('url',)
