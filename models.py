@@ -6,10 +6,6 @@ class ActivePageManager(models.Manager):
     def get_query_set(self):
         return super(ActivePageManager, self).get_query_set().filter(is_active=True)
 
-class TopLevelPageManager(models.Manager):
-    def get_query_set(self):
-        return super(TopLevelPageManager, self).get_query_set().filter(is_toplevel=True).exclude(is_active=False)
-
 class Page(models.Model):
     # unique=True?
     url = models.CharField(_('URL'), max_length=100, db_index=True, unique=True)
@@ -28,7 +24,6 @@ class Page(models.Model):
     # Note - the Django admin uses the first manager it sees
     objects = models.Manager()
     active = ActivePageManager()
-    toplevel = TopLevelPageManager
 
     class Meta:
         ordering = ('url',)
