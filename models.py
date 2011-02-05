@@ -12,7 +12,8 @@ class Page(models.Model):
     #sites = models.ManyToManyField(Site)
 
     # wes features
-    #is_draft = models.BooleanField(_('draft'))
+    is_active = models.BooleanField(_('active'))
+    is_toplevel = models.BooleanField(_('top level'))
     sub_pages = models.ManyToManyField('Page', blank=True)
 
     class Meta:
