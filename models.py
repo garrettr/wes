@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.sites.models import Site
 from django.utils.translation import ugettext_lazy as _
 
+class ActivePageManager(models.Manager):
+    def get_query_set(self):
+        return super(ActivePageManager, self).get_query_set().filter(is_active=True)
+
 class Page(models.Model):
     # unique=True?
     url = models.CharField(_('URL'), max_length=100, db_index=True)
@@ -15,6 +19,10 @@ class Page(models.Model):
     is_active = models.BooleanField(_('active'))
     is_toplevel = models.BooleanField(_('top level'))
     sub_pages = models.ManyToManyField('Page', blank=True)
+
+    # Managers
+    active = ActivePageManager()
+    objects = models.Manager()
 
     class Meta:
         ordering = ('url',)
