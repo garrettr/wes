@@ -4,7 +4,11 @@ from django.utils.translation import ugettext_lazy as _
 
 class ActivePageManager(models.Manager):
     def get_query_set(self):
-        return super(ActivePageManager, self).get_query_set().filter(is_active=True)
+        return super(ActivePageManager, self).get_query_set().filter(is_active=True).order_by('order_by')
+
+class TopLevelPageManager(models.Manager):
+    def get_query_set(self):
+        return super(TopLevelPageManager, self).get_query_set().filter(is_toplevel=True).exclude(is_active=False).order_by('order_by')
 
 class Page(models.Model):
     # unique=True?
@@ -12,18 +16,20 @@ class Page(models.Model):
     title = models.CharField(_('title'), max_length=200)
     content = models.TextField(_('content'), blank=True)
     #enable_comments = models.BooleanField(_('enable comments'))
-    template_name = models.CharField(_('template name'), max_length=70, blank=True, help_text=_("Example: 'flatpages/contact_page.html'. If this isn't provided, the system will use 'flatpages/default.html'."))
+    template_name = models.CharField(_('template name'), max_length=70, blank=True, help_text=_("Example: 'wes/contact_page.html'. If this isn't provided, the system will use 'wes/default.html'."))
     #sites = models.ManyToManyField(Site)
 
     # wes features
     is_active = models.BooleanField(_('active'))
     is_toplevel = models.BooleanField(_('top level'))
+    order_by = models.IntegerField(default=0, help_text=_("Used to order pages, affects the order they appear in the navigation"))
     sub_pages = models.ManyToManyField('Page', blank=True)
 
     # Managers
     # Note - the Django admin uses the first manager it sees
     objects = models.Manager()
     active = ActivePageManager()
+    toplevel = TopLevelPageManager()
 
     class Meta:
         ordering = ('url',)
