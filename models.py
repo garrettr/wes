@@ -22,7 +22,7 @@ class Page(models.Model):
     #sites = models.ManyToManyField(Site)
 
     # wes features
-    is_active = models.BooleanField(_('active'))
+    is_active = models.BooleanField(_('active'), default=True)
     is_toplevel = models.BooleanField(_('top level'))
     order_by = models.IntegerField(default=0, help_text=_("Used to order pages, affects the order they appear in the navigation"))
     sub_pages = models.ManyToManyField('Page', blank=True)
